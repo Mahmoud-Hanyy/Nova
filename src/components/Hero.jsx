@@ -3,6 +3,9 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { ArrowRight } from 'lucide-react';
 import { Model } from './Model';
+import BottomImage from "../assets/bottom.jpg";
+import DarkImage from "../assets/dark.jpg";
+import LightImage from "../assets/light.jpg";
 
 export const Hero = () => (
   <section className="h-screen flex flex-col md:flex-row items-center justify-center pt-16">

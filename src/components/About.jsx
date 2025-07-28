@@ -1,10 +1,11 @@
 import React from 'react';
+import SideImage from '../assets/side.jpg';
 
 export const About = () => (
     <section id="about" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-12">
             <div className="md:w-1/2">
-                <img src="https://placehold.co/600x400/1e293b/ffffff?text=Lifestyle" alt="Lifestyle" className="rounded-lg shadow-2xl w-full"/>
+                <img src={SideImage} alt="Lifestyle" className="rounded-lg shadow-2xl w-full"/>
             </div>
             <div className="md:w-1/2">
                 <h2 className="text-3xl font-extrabold text-white">Engineered for Excellence</h2>
