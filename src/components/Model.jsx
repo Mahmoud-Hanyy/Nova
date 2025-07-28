@@ -1,10 +1,20 @@
-import React from 'react'
-import { useGLTF } from '@react-three/drei'
+import React, { useRef } from 'react';
+import { useFrame } from '@react-three/fiber';
+import { useGLTF } from '@react-three/drei';
 
 export function Model(props) {
   const { nodes, materials } = useGLTF('/sneaker.glb');
+  const modelRef = useRef();
+
+  // Subtle auto-rotation
+  useFrame(() => {
+    if (modelRef.current) {
+      modelRef.current.rotation.y += 0.005;
+    }
+  });
+
   return (
-    <group {...props} dispose={null} scale={0.01} position={[0, -1, 0]} rotation={[0, Math.PI / 4, 0]}>
+    <group {...props} dispose={null} ref={modelRef}>
       <mesh geometry={nodes.Shoe_set_02_Sole_0.geometry} material={materials.Sole} />
       <mesh geometry={nodes.Shoe_set_02_Outer_0.geometry} material={materials.Outer} />
       <mesh geometry={nodes.Shoe_set_02_Laces_0.geometry} material={materials.Laces} />
@@ -13,4 +23,4 @@ export function Model(props) {
   );
 }
 
-useGLTF.preload('/sneaker.glb')
+useGLTF.preload('/sneaker.glb');
