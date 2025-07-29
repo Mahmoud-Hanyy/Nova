@@ -10,7 +10,7 @@ export const Footer = () => (
                 <a href="https://www.facebook.com/Newbalance/" className="text-gray-400 hover:text-white" target='_blank'><Facebook /></a>
             </div>
             <p className="mt-8 text-center text-base text-gray-400">
-                &copy; 2025 Project: Mahmoud Hany. All rights reserved.
+                &copy; 2025 Project: <span style={{fontFamily:'Work Sans',fontWeight:'bold'}}>Mahmoud Hany</span>. All rights reserved.
             </p>
         </div>
     </footer>
