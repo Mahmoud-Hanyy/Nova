@@ -1,8 +1,6 @@
 import React from 'react';
 import { Navbar } from './components/Navbar';
-import { Hero } from './components/Hero';
-import { Gallery } from './components/Gallery';
-import { About } from './components/About';
+import { LandingPage } from './components/LandingPage';
 import { Footer } from './components/Footer';
 
 export default function App() {
@@ -10,9 +8,7 @@ export default function App() {
     <div className="bg-gray-900">
       <Navbar />
       <main>
-        <Hero />
-        <Gallery />
-        <About />
+        <LandingPage />
       </main>
       <Footer />
     </div>
