@@ -6,11 +6,10 @@ export function Model(props) {
   const { nodes, materials } = useGLTF('/sneaker.glb');
   const modelRef = useRef();
 
-  // Subtle auto-rotation
   useFrame(() => {
-    if (modelRef.current) {
-      modelRef.current.rotation.y += 0.005;
-    }
+    modelRef.current.rotation.x += 0.01
+    modelRef.current.rotation.y += 0.01
+    modelRef.current.rotation.z += 0.01
   });
 
   return (
@@ -23,4 +22,5 @@ export function Model(props) {
   );
 }
 
+// Preload the model for faster loading
 useGLTF.preload('/sneaker.glb');
