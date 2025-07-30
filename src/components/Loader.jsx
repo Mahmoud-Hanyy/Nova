@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 
 const Loader = ({ onComplete }) => {
@@ -14,18 +13,16 @@ const Loader = ({ onComplete }) => {
   ];
 
   useEffect(() => {
-    const totalDuration = 7000; // 7 seconds
-    const intervalTime = 100; // Update every 100ms for smooth animation
+    const totalDuration = 11000;
+    const intervalTime = 100;
     const totalSteps = totalDuration / intervalTime;
     let currentStep = 0;
 
     const interval = setInterval(() => {
       currentStep++;
       const newProgress = (currentStep / totalSteps) * 100;
-      
       setProgress(newProgress);
-      
-      // Update loading text based on progress
+    
       const currentStage = loadingStages.find(stage => newProgress >= stage.progress && (currentStep - 1) / totalSteps * 100 < stage.progress);
       if (currentStage) {
         setLoadingText(currentStage.text);
@@ -34,7 +31,7 @@ const Loader = ({ onComplete }) => {
       if (currentStep >= totalSteps) {
         clearInterval(interval);
         setProgress(100);
-        setTimeout(() => onComplete && onComplete(), 500); // Small delay before calling onComplete
+        setTimeout(() => onComplete && onComplete(), 500);
       }
     }, intervalTime);
 
@@ -47,7 +44,7 @@ const Loader = ({ onComplete }) => {
         <div className="w-20 h-20 border-4 border-blue-500/30 rounded-full"></div>
         <div className="absolute inset-0 w-20 h-20 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
-    
+      
       <div className="w-80 max-w-sm mx-4 mb-6">
         <div className="flex justify-between text-sm text-gray-400 mb-2">
           <span>{loadingText}</span>
@@ -65,7 +62,6 @@ const Loader = ({ onComplete }) => {
         Loading...
       </p>
       
-      {/* Dots animation */}
       <div className="flex space-x-1 mt-4">
         {[0, 1, 2].map((i) => (
           <div
