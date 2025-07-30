@@ -1,12 +1,31 @@
-# React + Vite
+# NOVA Footwear - 3D Product Showcase
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern landing page featuring an interactive 3D shoe viewer built with React Three Fiber. This project showcases the NOVA sneaker with smooth animations and responsive design.
 
-Currently, two official plugins are available:
+## 🚀 Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Interactive 3D Viewer**
+  - 360° product rotation
+  - Real-time lighting and shadows
+  - Optimized GLB model loading
 
-## Expanding the ESLint configuration
+- **Engaging UI**
+  - Scroll-triggered animations (AOS)
+  - Responsive gallery section
+  - Smooth page transitions
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **Performance Optimized**
+  - Model compression with Draco
+  - Asset preloading
+  - Intelligent loading states
+
+## 🛠️ Tech Stack
+
+| Category        | Technologies                          |
+|-----------------|---------------------------------------|
+| 3D Rendering    | React Three Fiber, Three.js, Drei     |
+| UI Framework    | React.js                              |
+| Animation       | AOS (Animate On Scroll)               |
+| Styling         | Tailwind CSS                          |
+| Build Tool      | Vite                                  |
+| Deployment      | Vercel                                |
