@@ -13,7 +13,7 @@ const Loader = ({ onComplete }) => {
   ];
 
   useEffect(() => {
-    const totalDuration = 11000; // 11 seconds
+    const totalDuration = 7000; // Reduced to 7 seconds for faster loading indicator
     const intervalTime = 100; // Update every 100ms for smooth animation
     const totalSteps = totalDuration / intervalTime;
     let currentStep = 0;

@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
 
 export function Model(props) {
-  const { nodes, materials } = useGLTF('/sneaker.glb')
+  const { nodes, materials } = useGLTF('/sneaker-compressed.glb')
   const modelRef = useRef();
 
   useFrame(() => {
@@ -23,4 +23,4 @@ export function Model(props) {
 }
 
 // Preload the model for faster loading
-useGLTF.preload('/sneaker.glb');
+useGLTF.preload('/sneaker-compressed.glb');

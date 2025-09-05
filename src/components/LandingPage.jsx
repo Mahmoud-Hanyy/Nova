@@ -2,6 +2,7 @@ import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { ArrowRight } from "lucide-react";
 import { Model } from "./Model";
+import Loader from "./Loader";
 import BottomImage from "../assets/bottom.jpg";
 import DarkImage from "../assets/dark.jpg";
 import LightImage from "../assets/light.jpg";
@@ -56,7 +57,7 @@ export const LandingPage = () => {
           data-aos="fade-left"
         >
           <Canvas shadows camera={{ position: [0, 0.5, 4], fov: 50 }}>
-            <Suspense fallback={null}>
+            <Suspense fallback={<Loader />}>
               <ambientLight intensity={0.5} />
               <directionalLight
                 position={[10, 10, 5]}
