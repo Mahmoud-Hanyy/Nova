@@ -2,7 +2,7 @@
 
 A modern landing page featuring an interactive 3D shoe viewer built with React Three Fiber. This project showcases the NOVA sneaker with smooth animations and responsive design.
 
-## 🚀 Features
+## Features
 
 - **Interactive 3D Viewer**
   - 360° product rotation
@@ -19,7 +19,7 @@ A modern landing page featuring an interactive 3D shoe viewer built with React T
   - Asset preloading
   - Intelligent loading states
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Category        | Technologies                          |
 |-----------------|---------------------------------------|
