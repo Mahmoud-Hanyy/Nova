@@ -1,12 +1,29 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Roboto';
+@import "tailwindcss";
+
+@theme {
+  --color-charcoal: #1C1A17;
+  --color-charcoal-soft: #26221D;
+  --color-charcoal-deep: #131110;
+  --color-cream: #F5F0E8;
+  --color-cream-soft: #EDE4D6;
+  --color-clay: #B5674A;
+  --color-clay-dark: #8F4F38;
+  --color-clay-light: #C98868;
+  --color-bronze: #B08D57;
+  --color-stone: #A79C8F;
+
+  --font-display: "Inter Tight", sans-serif;
+  --font-body: "Inter", sans-serif;
 }
 
 html, body, #root {
   width: 100%;
   height: 100%;
-  background-color: #000000;
+}
+
+body {
+  background-color: var(--color-charcoal);
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
 }
