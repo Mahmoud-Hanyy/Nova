@@ -37,10 +37,7 @@ export function HeroStory() {
           if (!el) return;
           const stop = scenes[i].progress;
           const visibility = sceneVisibility(progress, stop);
-          // Direction-aware motion: panels rise up into place from below as
-          // you scroll toward their stop, then continue rising out of frame
-          // as you scroll past it - reinforcing the sense of travel rather
-          // than a flat fade in both directions.
+
           const direction = progress > stop ? -1 : 1;
           const travel = direction * (1 - visibility) * 56;
           const scale = 0.94 + visibility * 0.06;
@@ -88,10 +85,10 @@ export function HeroStory() {
                 className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-4 text-center"
                 style={{ opacity: 1, transition: "opacity 0.05s linear" }}
               >
-                <span className="font-display text-clay text-xs sm:text-sm font-semibold tracking-[0.35em] uppercase">
+                <span className="font-display text-cream text-xs sm:text-sm font-semibold tracking-[0.35em] uppercase">
                   {scene.eyebrow}
                 </span>
-                <h1 className="font-display mt-4 text-[16vw] leading-[0.9] sm:text-[13vw] md:text-[10vw] lg:text-[9rem] font-extrabold text-cream tracking-tighter">
+                  <h1 className="font-display mt-4 text-[16vw] leading-[0.9] sm:text-[13vw] md:text-[10vw] lg:text-[9rem] font-extrabold text-cream tracking-tighter">
                   {scene.heading}
                 </h1>
                 <p className="font-body mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-stone max-w-md">
@@ -112,7 +109,7 @@ export function HeroStory() {
                 style={{ opacity: 0, transition: "opacity 0.05s linear" }}
               >
                 <div className="max-w-xl">
-                  <span className="font-display text-clay text-sm font-semibold tracking-[0.25em] uppercase">
+                  <span className="font-display text-cream text-sm font-semibold tracking-[0.25em] uppercase">
                     {scene.eyebrow}
                   </span>
                   <h2 className="font-display mt-3 text-3xl sm:text-4xl lg:text-6xl font-bold text-cream leading-[1.05] tracking-tight">

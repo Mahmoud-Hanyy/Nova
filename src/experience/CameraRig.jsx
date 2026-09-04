@@ -12,15 +12,15 @@ export function CameraRig({ progressRef, keyLightRef, rimLightRef, isMobile }) {
   const targetPos = useRef(new THREE.Vector3(0, 0.6, 4.6));
   const targetLookAt = useRef(new THREE.Vector3(0, 0, 0));
   const currentLookAt = useRef(new THREE.Vector3(0, 0, 0));
-  const keyColor = useRef(new THREE.Color("#8ea2ff"));
-  const rimColor = useRef(new THREE.Color("#4338ca"));
+  const keyColor = useRef(new THREE.Color("#F7F3EA"));
+  const rimColor = useRef(new THREE.Color("#9B5DE5"));
   const currentViewOffset = useRef(0);
   const prevProgress = useRef(0);
   const currentRoll = useRef(0);
 
   // Pull the camera back a bit on narrow/portrait viewports so the shoe
   // never crops out of frame at any of the scene waypoints.
-  const distanceScale = isMobile ? 1.35 : 1;
+  const distanceScale = isMobile ? 1.2 : 1;
 
   useFrame((state, delta) => {
     const progress = progressRef.current ?? 0;

@@ -6,7 +6,7 @@ import * as THREE from "three";
 // The camera does the storytelling now (see CameraRig). The shoe just needs
 // to feel alive: a gentle idle bob, a faint scroll-linked lean, and a small
 // pointer-parallax tilt - subtle reactions, not the whole show.
-export function Model({ progressRef, ...props }) {
+export function Model({ progressRef, isMobile = false, ...props }) {
   const { nodes, materials } = useGLTF("/sneaker-compressed.glb", "/draco/");
   const modelRef = useRef();
   const { pointer } = useThree();
@@ -21,26 +21,37 @@ export function Model({ progressRef, ...props }) {
     const bob = Math.sin(t * 0.8) * 0.018;
     const idleWobble = Math.sin(t * 0.45) * 0.035;
 
-    // Scroll-linked turn - camera still leads the composition, but the
-    // shoe now visibly rotates through the journey instead of just leaning.
-    const scrollYaw = progress * 0.85;
-    const scrollTilt = Math.sin(progress * Math.PI) * 0.09;
+    // Scroll-linked choreography gives the shoe a distinct reveal arc:
+    // it turns, pitches, and rolls through the camera's changing views.
+    const scrollPhase = progress * Math.PI * 2;
+    const scrollYaw = progress * 1.8 + Math.sin(scrollPhase) * 0.22;
+    const scrollPitch = Math.sin(scrollPhase * 0.5) * 0.16;
+    const scrollRoll = Math.sin(scrollPhase + 0.6) * 0.14;
+    const scrollLift = Math.sin(scrollPhase) * 0.055;
+    const scrollScale = 1 + Math.sin(progress * Math.PI) * 0.08;
 
     // Pointer parallax tilt
     const pointerYaw = pointer.x * 0.16;
     const pointerPitch = -pointer.y * 0.1;
 
     const targetRotY = scrollYaw + pointerYaw + idleWobble;
-    const targetRotX = scrollTilt + pointerPitch;
+    const targetRotX = scrollPitch + pointerPitch;
+    const targetRotZ = scrollRoll + Math.sin(t * 0.55) * 0.018;
 
     modelRef.current.rotation.y = THREE.MathUtils.damp(modelRef.current.rotation.y, targetRotY, 2.2, delta);
     modelRef.current.rotation.x = THREE.MathUtils.damp(modelRef.current.rotation.x, targetRotX, 2.2, delta);
+    modelRef.current.rotation.z = THREE.MathUtils.damp(modelRef.current.rotation.z, targetRotZ, 2.2, delta);
     modelRef.current.position.y = THREE.MathUtils.damp(
       modelRef.current.position.y,
-      (props.position?.[1] ?? 0) + bob,
+      (props.position?.[1] ?? 0) + bob + scrollLift,
       4,
       delta
     );
+    const responsiveScale = isMobile ? 1.12 : 1;
+    const nextScale = (props.scale ?? 0.0024) * responsiveScale * scrollScale;
+    modelRef.current.scale.x = THREE.MathUtils.damp(modelRef.current.scale.x, nextScale, 3, delta);
+    modelRef.current.scale.y = THREE.MathUtils.damp(modelRef.current.scale.y, nextScale, 3, delta);
+    modelRef.current.scale.z = THREE.MathUtils.damp(modelRef.current.scale.z, nextScale, 3, delta);
   });
 
   return (

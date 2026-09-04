@@ -21,15 +21,15 @@ export const LandingPage = () => {
     <>
       <HeroStory />
 
-      <section id="gallery" className="py-20 sm:py-28 bg-cream">
+      <section id="gallery" className="py-20 sm:py-28 bg-charcoal-soft border-t border-cream/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <span className="font-display block text-center text-clay text-sm font-semibold tracking-[0.25em] uppercase">
             Detail Study
           </span>
-          <h2 className="font-display mt-3 text-3xl sm:text-4xl font-bold text-charcoal text-center tracking-tight">
+          <h2 className="font-display mt-3 text-3xl sm:text-4xl font-bold text-cream text-center tracking-tight">
             Engineered From Every Angle
           </h2>
-          <p className="font-body mt-4 text-charcoal/70 text-center max-w-2xl mx-auto">
+          <p className="font-body mt-4 text-cream/75 text-center max-w-2xl mx-auto">
             Nova wasn't sketched — it was engineered, tested, and refined the
             way a spacecraft is: every panel earning its place.
           </p>
@@ -59,7 +59,7 @@ export const LandingPage = () => {
 
       <Shop />
 
-      <section id="about" className="py-20 sm:py-28 bg-cream">
+      <section id="about" className="py-20 sm:py-28 bg-charcoal border-t border-cream/10">
         <div
           className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center gap-12"
           data-aos="fade-up"
@@ -83,17 +83,17 @@ export const LandingPage = () => {
             <span className="font-display block text-clay text-sm font-semibold tracking-[0.25em] uppercase">
               The Origin
             </span>
-            <h2 className="font-display mt-3 text-3xl sm:text-4xl font-bold text-charcoal tracking-tight">
+            <h2 className="font-display mt-3 text-3xl sm:text-4xl font-bold text-cream tracking-tight">
               A Shoe Built Like a Spacecraft
             </h2>
-            <p className="font-body mt-4 text-charcoal/70">
+            <p className="font-body mt-4 text-cream/75">
               Nova began as a question: what would New Balance build if the
               brief came from an aerospace lab instead of a running trial?
               The answer borrows straight from orbit — thermal-shield mesh,
               impact-tuned cushioning, and a form language stripped down to
               only what performance demands.
             </p>
-            <p className="font-body mt-4 text-charcoal/70">
+            <p className="font-body mt-4 text-cream/75">
               This is a concept project — a design exercise imagining Nova as
               part of the New Balance lineup, built to explore what a
               product-launch website for a serious performance shoe could
@@ -107,9 +107,9 @@ export const LandingPage = () => {
                 'Lightweight chassis for effortless movement',
                 'Designed for athletes who go the distance',
               ].map((item) => (
-                <li key={item} className="font-body text-charcoal/70 flex items-center group">
+                <li key={item} className="font-body text-cream/75 flex items-center group">
                   <span className="w-2 h-2 bg-clay rounded-full mr-3 shrink-0 group-hover:bg-bronze transition-colors duration-300"></span>
-                  <span className="group-hover:text-charcoal transition-colors duration-300">{item}</span>
+                  <span className="group-hover:text-cream transition-colors duration-300">{item}</span>
                 </li>
               ))}
             </ul>

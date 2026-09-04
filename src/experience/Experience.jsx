@@ -28,29 +28,29 @@ export function Experience({ progressRef }) {
       dpr={isMobile ? [1, 1.2] : [1, 1.8]}
       camera={{ position: [0, 0.6, 4.6], fov: 45 }}
     >
-      <color attach="background" args={["#1C1A17"]} />
+      <color attach="background" args={["#170B2B"]} />
       <Suspense fallback={null}>
-        <ambientLight intensity={0.45} color="#F5E6D3" />
+        <ambientLight intensity={0.6} color="#F7F3EA" />
         <directionalLight
           ref={keyLightRef}
           position={[3, 4, 3]}
-          intensity={1.3}
-          color="#E8C9A0"
+          intensity={1.5}
+          color="#F7F3EA"
           castShadow={!isMobile}
           shadow-mapSize={isMobile ? [512, 512] : [1024, 1024]}
         />
-        <directionalLight ref={rimLightRef} position={[-3, 1, -3]} intensity={0.6} color="#8F4F38" />
+        <directionalLight ref={rimLightRef} position={[-3, 1, -3]} intensity={0.7} color="#9B5DE5" />
         {/* A third fill light stands in for image-based reflections, so we
             don't depend on an external HDR fetch for the base look. */}
-        <directionalLight position={[0, 2, -4]} intensity={0.45} color="#EDE4D6" />
-        <Model progressRef={progressRef} scale={0.0024} position={[0, -0.02, 0]} />
+        <directionalLight position={[0, 2, -4]} intensity={0.6} color="#291347" />
+        <Model progressRef={progressRef} isMobile={isMobile} scale={0.0029} position={[0, -0.02, 0]} />
         <ContactShadows
           position={[0, -0.42, 0]}
-          opacity={0.5}
+          opacity={0.35}
           scale={6}
           blur={isMobile ? 3.2 : 2.4}
           far={2}
-          color="#131110"
+          color="#0B0517"
           resolution={isMobile ? 256 : 512}
         />
       </Suspense>
