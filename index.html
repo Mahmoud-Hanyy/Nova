@@ -3,18 +3,98 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Nova by New Balance — an interstellar performance sneaker. Explore the build, the design, and the story." />
 
+    <!-- Primary SEO -->
+    <title>Nova — New Balance | Interstellar Performance Sneaker</title>
+    <meta
+      name="description"
+      content="Nova by New Balance — an interstellar performance sneaker. Explore the build, the design, and the story."
+    />
+    <meta name="keywords" content="Nova, New Balance, performance sneaker, running shoes, sneaker design, footwear" />
+    <meta name="author" content="New Balance" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://nova-woad-gamma.vercel.app/" />
+
+    <!-- Theme / mobile -->
+    <meta name="theme-color" content="#0a0a0a" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Icons & manifest (place files in /public) -->
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+
+    <!-- Open Graph (Facebook, LinkedIn, WhatsApp, Slack, iMessage) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Nova — New Balance" />
+    <meta property="og:title" content="Nova — New Balance | Interstellar Performance Sneaker" />
+    <meta
+      property="og:description"
+      content="An interstellar performance sneaker. Explore the build, the design, and the story."
+    />
+    <meta property="og:url" content="https://nova-woad-gamma.vercel.app/" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image" content="https://nova-woad-gamma.vercel.app/og-image.jpg" />
+    <meta property="og:image:secure_url" content="https://nova-woad-gamma.vercel.app/og-image.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Nova by New Balance — an interstellar performance sneaker" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Nova — New Balance | Interstellar Performance Sneaker" />
+    <meta
+      name="twitter:description"
+      content="An interstellar performance sneaker. Explore the build, the design, and the story."
+    />
+    <meta name="twitter:image" content="https://nova-woad-gamma.vercel.app/og-image.jpg" />
+    <meta name="twitter:image:alt" content="Nova by New Balance — an interstellar performance sneaker" />
+    <!-- <meta name="twitter:site" content="@yourhandle" /> -->
+
+    <!-- Structured data (JSON-LD) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebSite",
+            "@id": "https://nova-woad-gamma.vercel.app/#website",
+            "url": "https://nova-woad-gamma.vercel.app/",
+            "name": "Nova — New Balance",
+            "inLanguage": "en"
+          },
+          {
+            "@type": "Product",
+            "@id": "https://nova-woad-gamma.vercel.app/#product",
+            "name": "Nova",
+            "description": "An interstellar performance sneaker by New Balance.",
+            "image": "https://nova-woad-gamma.vercel.app/og-image.jpg",
+            "brand": { "@type": "Brand", "name": "New Balance" },
+            "category": "Footwear > Athletic Shoes"
+          }
+        ]
+      }
+    </script>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Inter+Tight:wght@500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
-
-    <title>Nova — New Balance</title>
   </head>
   <body>
+    <noscript>
+      <h1>Nova — New Balance</h1>
+      <p>
+        Nova is an interstellar performance sneaker by New Balance. Please enable JavaScript to explore the build, the
+        design, and the story.
+      </p>
+    </noscript>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
