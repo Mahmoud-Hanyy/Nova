@@ -1,50 +1,92 @@
-import { useEffect, useRef, Suspense, lazy } from "react";
+"use client";
+
+import { useEffect, useRef } from "react";
+import dynamic from "next/dynamic";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { scenes } from "./scenes";
 import { SceneErrorBoundary } from "./SceneErrorBoundary";
 
-// Three.js/R3F/drei are heavy - split them into their own chunk and load
-// only once this section actually mounts, so first paint isn't blocked.
-const Experience = lazy(() => import("./Experience").then((m) => ({ default: m.Experience })));
+// Begin downloading the WebGL scene as soon as this hero module is evaluated.
+// The model and Draco decoder are preloaded by the root layout, so starting
+// this chunk early lets code, geometry, and decoder arrive in parallel instead
+// of waiting for the hero to hydrate before the scene can even be requested.
+const experienceModulePromise =
+  typeof window === "undefined" ? null : import("./Experience");
+
+const Experience = dynamic(
+  () =>
+    (experienceModulePromise ?? import("./Experience")).then(
+      (module) => module.Experience,
+    ),
+  {
+    ssr: false,
+    loading: () => <div className="hero-fallback" aria-hidden="true" />,
+  },
+);
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Each scene's copy fades in/out around its own progress "stop" as the user
-// scrolls through it - a scrubbed reveal rather than a one-shot fade.
-function sceneVisibility(progress, stop, band = 0.16) {
-  const d = Math.abs(progress - stop);
-  return Math.max(0, 1 - d / band);
-}
+const TRANSITION_BAND = 0.23;
+const sceneMotion = [
+  { x: 0, y: 28, scale: 0.96 },
+  { x: -56, y: 0, scale: 1 },
+  { x: 0, y: 42, scale: 0.98 },
+  { x: 56, y: 0, scale: 1.02 },
+];
+const getVisibility = (progress, stop) =>
+  Math.max(0, 1 - Math.abs(progress - stop) / TRANSITION_BAND);
 
 export function HeroStory() {
   const wrapperRef = useRef(null);
+  const progressContainerRef = useRef(null);
   const progressRef = useRef(0);
   const panelRefs = useRef([]);
-
+  const progressFillRef = useRef(null);
+  const progressCountRef = useRef(null);
+  const progressTrackRef = useRef(null);
   useEffect(() => {
+    // Some mobile browser shells/extensions add an inline translate before
+    // hydration. It is not part of the page layout, so remove it after mount.
+    progressContainerRef.current?.style.removeProperty("translate");
+
     const trigger = ScrollTrigger.create({
       trigger: wrapperRef.current,
       start: "top top",
       end: "bottom bottom",
-      scrub: true,
-      onUpdate: (self) => {
-        const progress = self.progress;
+      scrub: 0.7,
+      onUpdate: ({ progress }) => {
         progressRef.current = progress;
 
-        panelRefs.current.forEach((el, i) => {
-          if (!el) return;
-          const stop = scenes[i].progress;
-          const visibility = sceneVisibility(progress, stop);
+        const activeIndex = scenes.reduce(
+          (active, scene, index) =>
+            progress >= scene.progress ? index : active,
+          0,
+        );
+        if (progressCountRef.current) {
+          progressCountRef.current.textContent = String(activeIndex + 1).padStart(
+            2,
+            "0",
+          );
+        }
+        if (progressFillRef.current) {
+          progressFillRef.current.style.transform = `scaleX(${progress})`;
+        }
+        progressTrackRef.current?.setAttribute(
+          "aria-valuenow",
+          String(Math.round(progress * 100)),
+        );
 
-          const direction = progress > stop ? -1 : 1;
-          const travel = direction * (1 - visibility) * 56;
-          const scale = 0.94 + visibility * 0.06;
-          el.style.opacity = visibility.toFixed(3);
-          el.style.transform = `translateY(${travel}px) scale(${scale})`;
-          el.style.filter = `blur(${((1 - visibility) * 5).toFixed(2)}px)`;
-          el.style.pointerEvents = visibility > 0.4 ? "auto" : "none";
+        panelRefs.current.forEach((element, index) => {
+          if (!element) return;
+
+          const amount = getVisibility(progress, scenes[index].progress);
+          const motion = sceneMotion[index];
+          element.style.opacity = String(amount);
+          element.style.transform = `translate3d(${(1 - amount) * motion.x}px, ${(1 - amount) * motion.y}px, 0) scale(${motion.scale + (1 - motion.scale) * amount})`;
+          element.inert = amount < 0.05;
+          element.setAttribute("aria-hidden", String(amount < 0.05));
         });
       },
     });
@@ -53,83 +95,71 @@ export function HeroStory() {
   }, []);
 
   return (
-    <section id="home" ref={wrapperRef} className="relative" style={{ height: "400vh" }}>
-      <div className="sticky top-0 h-screen w-full overflow-hidden bg-charcoal">
-        {/* Constrain the whole composition (canvas + text) to a shared
-            centered width. Without this, the canvas stretches full viewport
-            width while the text stays pinned near the left edge - on wide
-            monitors the shoe renders dead-center and everything past it is
-            just empty. Letterboxing beyond this width keeps both elements
-            visually tied together instead. */}
-        <div className="relative mx-auto h-full max-w-[1680px]">
-          <div className="absolute inset-0">
-            <SceneErrorBoundary>
-              <Suspense
-                fallback={
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-10 h-10 border-2 border-clay/25 border-t-clay rounded-full animate-spin" />
-                  </div>
-                }
-              >
-                <Experience progressRef={progressRef} />
-              </Suspense>
-            </SceneErrorBoundary>
-          </div>
+    <section id="home" ref={wrapperRef} className="hero-wrap">
+      <div className="hero-sticky">
+        <div className="hero-canvas">
+          <SceneErrorBoundary>
+            <Experience progressRef={progressRef} />
+          </SceneErrorBoundary>
+        </div>
 
-          {scenes.map((scene, i) =>
-            scene.hero ? (
-              // Opening scene: huge centered wordmark + a distinct scroll-to-continue prompt
-              <div
-                key={scene.id}
-                ref={(el) => (panelRefs.current[i] = el)}
-                className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-4 text-center"
-                style={{ opacity: 1, transition: "opacity 0.05s linear" }}
-              >
-                <span className="font-display text-cream text-xs sm:text-sm font-semibold tracking-[0.35em] uppercase">
-                  {scene.eyebrow}
-                </span>
-                  <h1 className="font-display mt-4 text-[16vw] leading-[0.9] sm:text-[13vw] md:text-[10vw] lg:text-[9rem] font-extrabold text-cream tracking-tighter">
-                  {scene.heading}
-                </h1>
-                <p className="font-body mt-4 sm:mt-6 text-base sm:text-lg md:text-xl text-stone max-w-md">
-                  {scene.body}
-                </p>
-                <div className="mt-10 sm:mt-14 flex flex-col items-center text-stone/80">
-                  <span className="font-display text-[11px] sm:text-xs tracking-[0.3em] uppercase">
-                    {scene.scrollPrompt}
-                  </span>
-                  <ChevronDown className="mt-2 animate-bounce" size={20} />
+        {scenes.map((scene, index) => (
+          <div
+            key={scene.id}
+            ref={(element) => (panelRefs.current[index] = element)}
+            className={`hero-content${scene.hero ? " hero-opening" : ""}`}
+            style={{ opacity: index === 0 ? 1 : 0 }}
+            aria-hidden={index !== 0}
+            inert={index !== 0}
+          >
+            <div className="hero-copy">
+              <span className="hero-eyebrow">{scene.eyebrow}</span>
+              {scene.hero ? (
+                <h1 className="hero-title">{scene.heading}</h1>
+              ) : (
+                <h2 className="hero-title">{scene.heading}</h2>
+              )}
+              <p className="hero-body">{scene.body}</p>
+              {scene.cta && (
+                <div className="hero-actions hero-primary-action">
+                  <a className="pill" href={scene.ctaHref}>
+                    {scene.ctaLabel} <ArrowRight size={15} />
+                  </a>
                 </div>
-              </div>
-            ) : (
-              <div
-                key={scene.id}
-                ref={(el) => (panelRefs.current[i] = el)}
-                className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center px-6 text-center md:items-start md:justify-center md:text-left md:pl-12 lg:pl-16"
-                style={{ opacity: 0, transition: "opacity 0.05s linear" }}
-              >
-                <div className="max-w-xl">
-                  <span className="font-display text-cream text-sm font-semibold tracking-[0.25em] uppercase">
-                    {scene.eyebrow}
-                  </span>
-                  <h2 className="font-display mt-3 text-3xl sm:text-4xl lg:text-6xl font-bold text-cream leading-[1.05] tracking-tight">
-                    {scene.heading}
-                  </h2>
-                  <p className="font-body mt-4 text-sm sm:text-base md:text-lg text-stone max-w-lg mx-auto md:mx-0">
-                    {scene.body}
-                  </p>
-                  {scene.cta && (
-                    <a
-                      href={scene.ctaHref}
-                      className="font-display mt-8 inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-semibold tracking-tight rounded-md text-cream bg-clay hover:bg-clay-dark transition-colors duration-300 pointer-events-auto"
-                    >
-                      {scene.ctaLabel} <ArrowRight className="ml-2" size={20} />
-                    </a>
-                  )}
+              )}
+              {scene.hero && (
+                <div className="hero-actions hero-scroll-cue">
+                  <span>Scroll to explore</span>
+                  <ChevronDown size={15} aria-hidden="true" />
                 </div>
-              </div>
-            )
-          )}
+              )}
+            </div>
+          </div>
+        ))}
+
+        <div
+          className="hero-progress"
+          aria-label="Product story progress"
+          ref={progressContainerRef}
+          suppressHydrationWarning
+        >
+          <div className="hero-progress-label">
+            <span ref={progressCountRef}>01</span>
+            <span className="hero-progress-total">/ 04</span>
+            <span className="hero-progress-hint">Scroll to explore</span>
+          </div>
+          <div
+            className="hero-progress-track"
+            ref={progressTrackRef}
+            role="progressbar"
+            aria-label="Product story"
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-valuenow={0}
+          >
+            <span ref={progressFillRef} className="hero-progress-fill" />
+          </div>
+          <span className="hero-progress-edition">Nova / 2026</span>
         </div>
       </div>
     </section>
